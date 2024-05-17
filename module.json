@@ -1,0 +1,51 @@
+{
+  "id": "phoenix-summons",
+  "title": "Phoenix Summons",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "esmodules": [
+    "scripts/module.js"
+  ],
+  "styles": [
+    "styles/styles.css"
+  ],
+  "relationships": {
+    "requires": [
+      {
+        "id": "sequencer",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "socketlib",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "warpgate",
+        "type": "module"
+      }
+    ],
+    "recommends": [
+      {
+        "id": "midi-qol",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "JB2A_DnD5e",
+        "type": "module"
+      }
+    ]
+  },
+  "description": "An easy to use API for summoning any actor through any macro or code, best used with midi-qol, and JB2A or other animation modules.  Requires Warpgate socketLib, and Sequencer.",
+  "authors": [
+    {
+      "name": "The Phoenix",
+      "discord": "thePhoenix777"
+    }
+  ]
+}
