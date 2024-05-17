@@ -1,0 +1,100 @@
+﻿.summons {
+    background-image: url("./../Images/Paper.png");
+    background-size: 100% 100%;
+    padding: 10px;
+}
+
+.summon-sheet {
+    display: flex;
+    min-height: 165px;
+}
+
+.summon-drop {
+    display: flex;
+    flex-grow: 1;
+    align-content: center;
+    justify-content: center;
+}
+
+.summon-drop-text {
+    font-family: var(--dnd5e-font-modesto); 
+    text-align: center;
+    color: #333333;
+    font-size: 20px;
+}
+
+.summon-row {
+    margin: 2px;
+    gap: 5px;
+    box-sizing: border-box;
+}
+
+.summon-control-column.text-right {
+    text-align: right;
+}
+
+.summon-image-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url("./../Images/Button_A_Lil_Frame.png");
+    background-size: cover;
+    display: block;
+    
+}
+.summon-image-column {
+    background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url("./../Images/Button_A_Lil_Button.png");
+    background-size: cover;
+    padding: 5px;
+    flex-grow: 0;
+    position: relative;
+}
+
+.summon-image {
+    max-width: 75px;
+    display: block;
+}
+
+.summon-text-column {
+    background-image: url("./../Images/Button_A_Long_active.png");
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.summon-text {
+    font-family: var(--dnd5e-font-modesto);
+    font-size: 16px;
+}
+
+.summon-remove-column {
+    background-image: url("./../Images/Button_A_Lil_Ready.png");
+    background-size: 100% 100%;
+    flex-grow: 0;
+    min-width: 75px;    
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+.summon-remove-image {
+    display: block;
+    background-image: url("./../Images/Exit_eq_icon_nb.png");
+    background-size: 100% 100%; 
+    width: 100%;
+    height: 100%;
+}
+
+.summon-remove-column:hover {
+    background-image: url("./../Images/Button_A_Lil_active.png");
+    background-size: 100% 100%;
+}
+
+.summon-hidden {
+    display: none;
+    max-height: 0;
+    overflow: hidden;
+}
