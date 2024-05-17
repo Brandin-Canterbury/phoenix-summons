@@ -2,28 +2,45 @@
 import utility from "./utility.js";
 
 export const flagUtility = {
-    createFlagObject: async (object) => {
-        await object.setFlag(constants.flags.flagNameSpace, constants.flags.summonActive, false);
-        await object.setFlag(constants.flags.flagNameSpace, constants.flags.casterColor, "darkBlue");
-        await object.setFlag(constants.flags.flagNameSpace, constants.flags.summonId, "");
-    },
-
-    updateDocumentItem: (itemId, flagData) => {
-        const item = game.items.get(itemId);
-        item.update(flagData, { render: false });  
-    },
-        
-    getCasterAnimationColor: (object) => {
-        return object.getFlag(constants.flagName, constants.casterColorName);
+    createUpdateObj: () => {
+        const updateObj = {  flags: {} };
+        updateObj.flags[constants.flags.flagNameSpace] = {};
+        return updateObj;
     },
     
+    updateKey: (updateObj, key, value) => {        
+        updateObj.flags[constants.flags.flagNameSpace][key] = value;
+        return updateObj;
+    },
+
+    createDefaultFlags: async (itemId) => {
+        let updateObj = flagUtility.createUpdateObj();
+        updateObj = flagUtility.updateKey(updateObj, constants.flags.summonActive, false);
+        updateObj = flagUtility.updateKey(updateObj, constants.flags.casterColor, "darkBlue");
+        updateObj = flagUtility.updateKey(updateObj, constants.flags.summonId, "");        
+        await flagUtility.updateDocumentItem(itemId, updateObj);
+    },
+
+    updateDocumentItem: async (itemId, updateObj) => {
+        const item = await fromUuid(itemId);
+        if (!item) {
+            console.error("Unable to update item!");
+            return;
+        }
+        await item.update(updateObj, {render: false});
+    },
+
+    getCasterAnimationColor: (object) => {
+        return  object.getFlag(constants.flags.flagNameSpace, constants.flags.casterColor);
+    },
+
     getSummonId: (object) => {
-        const id = object.getFlag(constants.flagName, constants.idName);
+        let id = object.getFlag(constants.flags.flagNameSpace, constants.flags.summonId);
         return utility.parseUuid(id);
     },
 
     getSummonEnabled: (object) => {
-        return object.getFlag(constants.flagName, constants.boolName);
+        return  object.getFlag(constants.flags.flagNameSpace, constants.flags.summonActive);
     },
 }
 

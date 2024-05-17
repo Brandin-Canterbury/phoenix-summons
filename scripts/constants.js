@@ -6,6 +6,7 @@
     },
     flags: {
         flagNameSpace: "phoenix-summons",
+        flagObjName: "summonData",
         summonActive: "summonActive",
         summonId: "summonId",
         casterColor: "casterAnimColor",

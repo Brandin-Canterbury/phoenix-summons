@@ -5,24 +5,27 @@ import constants from "../constants.js";
 import SummonRow from "./summonRow.js";
 
 export default class SummonForm {
-    flags = {
+    updateObj = {
+        flags: {}
     }
     
     constructor(app, html) {
         this.html = html;
-        this.itemObject = app.object;
-        this.id = app.id;
-        
-        this.initForm();
+        this.id = app.object.uuid;
+
         this.initFormData();
+        this.initForm();
     }
     
     async initFormData() {
-        this.flags[constants.flags.flagNameSpace] = {};
-        if(this.itemObject.flags[constants.flags.flagNameSpace] === undefined) {
-            await this.createFlagData();
-        }
-        this.flags[constants.flags.flagNameSpace] = this.itemObject.flags[constants.flags.flagNameSpace];
+        let itemObject = await fromUuid(this.id);
+        this.updateObj.flags[constants.flags.flagNameSpace] = itemObject.flags[constants.flags.flagNameSpace]
+        
+        if(this.updateObj.flags[constants.flags.flagNameSpace] === undefined) {
+            await flagUtility.createDefaultFlags(this.id);
+            itemObject = await fromUuid(this.id);
+            this.updateObj.flags[constants.flags.flagNameSpace] = itemObject.flags[constants.flags.flagNameSpace];
+        }                
     }
 
     async initForm() {
@@ -79,7 +82,7 @@ export default class SummonForm {
     
     // Summon Updating and rendering
     updateSummonItem() {
-        const summonId = this.getFlagData()[constants.flags.summonId];
+        const summonId = this.getFlagData(constants.flags.summonId);
         const summonContainer = this.html.find("#SummonItem");
         if(summonId === "") {
             summonContainer.empty();
@@ -99,11 +102,19 @@ export default class SummonForm {
     //Dropdown Controls
 
     getCasterSelectOptions() {
-        return jb2a.getCircleMapping().map(opt => `<option value="${opt.value}">${opt.label}</option>`).join('');
+        const currentValue = this.getFlagData(constants.flags.casterColor);
+        return jb2a.getCircleMapping().map(opt => { return this.mapSelectOptions(opt, currentValue)}).join('');
     }
 
     getTargetSelectOptions() {
-        return jb2a.getSummonAnimationDropdown().map(opt => `<option value="${opt.value}">${opt.label}</option>`).join('');
+        let currentValue = "";
+        return jb2a.getSummonAnimationDropdown().map(opt => { return this.mapSelectOptions(opt, currentValue)}).join('');
+    }
+    
+    
+    mapSelectOptions(option, value) {
+        if(option.value === value) return `<option value="${option.value}" selected>${option.label}</option>`;
+        return `<option value="${option.value}">${option.label}</option>`;
     }
 
     
@@ -159,19 +170,19 @@ export default class SummonForm {
     
     
     //Data Methods
-    async createFlagData() {
-        await flagUtility.createFlagObject(this.itemObject);
-    }
     
     updateData() {
-        flagUtility.updateDocumentItem(this.itemObject.id, this.flags);
+        flagUtility.updateDocumentItem(this.id, this.updateObj);
     }
     
-    getFlagData() {
-        return this.flags[constants.flags.flagNameSpace];
+    getFlagData(key) {
+        if(!key) {
+            return this.updateObj.flags[constants.flags.flagNameSpace];            
+        }
+        return this.updateObj.flags[constants.flags.flagNameSpace][key];
     }
     
     setFlagData(key, value) {
-        this.flags[constants.flags.flagNameSpace][key] = value;
+        this.updateObj.flags[constants.flags.flagNameSpace][key] = value;
     }
 }

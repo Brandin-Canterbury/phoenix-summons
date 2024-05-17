@@ -1,4 +1,4 @@
-import utility from "./utilities/utility.js";
+﻿import utility from "./utilities/utility.js";
 import chatUtility from "./utilities/chatUtility.js";
 import summons from "./summons.js";
 import formService from "./form/formService.js";
@@ -17,7 +17,7 @@ Hooks.on("preCreateChatMessage", async (chatMessageData, options, userId) => {
 
 Hooks.on("closeItemSheet", async  (app, html, data) => {
     formService.removeForm(app.id);
-});
+})
 
 globalThis['phoenixSummons'] = {
     formService,
